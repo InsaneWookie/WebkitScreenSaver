@@ -26,15 +26,15 @@ namespace WebkitScreenSaverWPF
         WebView web_view;
         private DateTime StartTime = DateTime.Now;
 
-        public MainWindow()
+        public MainWindow(string url)
         {
             InitializeComponent();
 
             Mouse.OverrideCursor = Cursors.None;
 
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey(Properties.Settings.Default.RegistryKey);
-            string url = (string)reg.GetValue("Url", "http://192.168.1.2");
-            reg.Close();
+            //RegistryKey reg = Registry.CurrentUser.CreateSubKey(Properties.Settings.Default.RegistryKey);
+            //string url = (string)reg.GetValue("Url", "http://192.168.1.2");
+            //reg.Close();
 
             web_view = new WebView(url, new CefSharp.BrowserSettings());
 
@@ -45,7 +45,7 @@ namespace WebkitScreenSaverWPF
         private void mainGrid_MouseMove(object sender, MouseEventArgs e)
         {
             //mouse move is trigger on startup so we give it one second before we start detecting mouse movements
-            if (StartTime.AddSeconds(1) < DateTime.Now)
+            if (this.IsLoaded && StartTime.AddSeconds(1) < DateTime.Now)
                 this.Close();
         }
 
